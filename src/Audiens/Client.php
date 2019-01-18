@@ -9,6 +9,7 @@ use Audiens\AdForm\Manager\CategoryManager;
 use Audiens\AdForm\Manager\DataProviderAudienceManager;
 use Audiens\AdForm\Manager\DataUsageManager;
 use Audiens\AdForm\Manager\SegmentManager;
+use Audiens\AdForm\Manager\CookieManager;
 
 class Client
 {
@@ -43,6 +44,9 @@ class Client
 
     /** @var SegmentManager */
     protected static $segments;
+
+    /** @var CookieManager */
+    protected static $cookies;
 
     /** @var  AgencyManager */
     protected static $agencies;
@@ -107,6 +111,19 @@ class Client
         }
 
         return static::$segments;
+    }
+
+    /**
+     * A proxy method for working with cookies
+     * @return CookieManager
+     */
+    public function cookies(): CookieManager
+    {
+        if (static::$cookies === null) {
+            static::$cookies = new CookieManager($this->httpClient, $this->cache);
+        }
+
+        return static::$cookies;
     }
 
     /**
